@@ -1,1 +1,0 @@
-@extends('Perfil1.Templates.footer')

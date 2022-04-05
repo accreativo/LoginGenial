@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateUsuariosTable extends Migration
@@ -20,11 +21,20 @@ class CreateUsuariosTable extends Migration
                 ->on('perfiles')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
-            $table->string('usuario')->unique(); ######## ¿Correo o DNI?
-            $table->string('password',100); ######## Contraseña para el login
-            $table->string('correo')->unique(); ######## Correo de registro del perfil
-            $table->boolean('flestado') ######## TRUE: Puede loguearse; FALSE: No puede loguearse
-                ->default(TRUE);  
+            $table->string('correo')
+                ->unique();
+            $table->string('usuario')
+                ->unique();
+            $table->string('password',100);
+            $table->boolean('fl_estado')
+                ->default('true');
+            $table->boolean('fl_recuperacion')
+                ->default('false');
+            $table->timestamp('fe_recuperacion') ######## Fecha Vigencia Recuperacion
+                ->nullable();
+            $table->uuid('tkn')
+                ->default(DB::raw('uuid_generate_v4()'));
+            $table->index('tkn');
             $table->timestamps();
         });
     }

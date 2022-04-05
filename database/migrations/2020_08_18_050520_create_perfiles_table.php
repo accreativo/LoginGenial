@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreatePerfilesTable extends Migration
@@ -13,9 +14,13 @@ class CreatePerfilesTable extends Migration
      */
     public function up()
     {
+        DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
         Schema::create('perfiles', function (Blueprint $table) {
             $table->id();
-            $table->string('perfil');
+            $table->string('nombre');
+            $table->uuid('tkn')
+                ->default(DB::raw('uuid_generate_v4()'));
+            $table->index('tkn');
             $table->timestamps();
         });
     }

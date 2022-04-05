@@ -1,15 +1,9 @@
-@extends('Perfil1.Dashboard.template')
-
-@section('head')
-    @include('Perfil1.Templates.head')
-@endsection
-
+@extends('Perfil1.Template.index')
 @section('titulo')
-    Login Genial | Perfil 1
+    LoginGenial | Perfil1
 @endsection
-
 @section('header')
-    @include('Perfil1.Dashboard.header')
+    @include('Perfil1.Template.header')
 @endsection
 
 @section('content')
@@ -17,5 +11,5 @@
 @endsection
 
 @section('footer')
-    @include('Perfil1.Dashboard.footer')
+    @include('Perfil1.Template.footer')
 @endsection

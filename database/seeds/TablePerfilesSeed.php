@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TablePerfilesSeed extends Seeder
 {
@@ -18,7 +19,7 @@ class TablePerfilesSeed extends Seeder
 
         foreach ($perfiles as $valor){
             DB::table('perfiles')->insert([
-                'perfil' => $valor
+                'nombre' => $valor
             ]);
         }
     }

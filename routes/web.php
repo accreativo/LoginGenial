@@ -13,24 +13,39 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'Login'], function () {
+Route::group(['namespace' => 'Publico'], function () {
 
-    #Vista Login
-    Route::get('/', 'LoginController@index')->name('login');
+    ###Home
+        ###Vista Login
+        Route::get('/', 'InicioController@index')
+                ->name('publicoInicio');
 
-    #Validar credenciales
-    Route::post('/login', 'LoginController@login')->name('validar');
+        ###Validar credenciales
+        Route::post('/login', 'LoginController@login')
+                ->name('publicoLogin');
 
-    #Vista Recuperar Contraseña
-    Route::get('/clave', 'LoginController@clave')->name('clave');
+        ###Cerrar Sesion
+        Route::post('/logout', 'LoginController@logout')
+            ->name('publicoLogout');
 
-    #Vista Recuperar Contraseña
-    Route::post('/recuperar', 'LoginController@recuperar')->name('recuperar');
+        ###Bienvenido a tu cuenta
+        Route::get('/bienvenido','LoginController@index')
+            ->name('publicoBienvenido');
 
-    #Cerrar Sesion
-    Route::post('/logout', 'LoginController@logout')->name('logout');
+    ###Contraseña
+        ###Vista Recuperar Contraseña
+        Route::get('/recuperar-contrasena', 'ContrasenaController@index')
+            ->name('publicoRecuperarContrasena');
 
-    #Bienvenido a tu dashboard
-    Route::get('/bienvenido','LoginController@bienvenido')->name('bienvenido');
+        ###Recuperar Contraseña
+        Route::post('/recuperar-contrasena', 'ContrasenaController@solicitar')
+            ->name('publicoSolicitarRecuperarContrasena');
 
+        ###Vista Renovar Contraseña
+        Route::get('/{tkn_usuario}/renovar-contrasena', 'ContrasenaController@nueva')
+            ->name('publicoRenovarContrasena');
+
+        ###Renovar Contraseña
+        Route::post('/renovar-contrasena', 'ContrasenaController@renovar')
+            ->name('publicoSolicitarRenovarContrasena');
 });

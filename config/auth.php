@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\src\Autenticacion\AutenticacionModel;
+
 return [
 
     /*
@@ -68,7 +70,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\UsuarioModel::class,
+            'model' => AutenticacionModel::class,
         ],
 
         // 'users' => [

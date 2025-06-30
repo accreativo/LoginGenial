@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\src\Autenticacion\Controllers\ContrasenaController;
+use App\Http\src\Autenticacion\Controllers\AutenticacionViewController;
+use App\Http\src\Autenticacion\Controllers\CredencialController;
+use App\Http\src\Rol\Controllers\RolViewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,39 +17,61 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'Publico'], function () {
 
-    ###Home
-        ###Vista Login
-        Route::get('/', 'InicioController@index')
-                ->name('publicoInicio');
+Route::group([ ], function () {
 
-        ###Validar credenciales
-        Route::post('/login', 'LoginController@login')
-                ->name('publicoLogin');
+    ###Vista Login
+    Route::get('/', [AutenticacionViewController::class, 'login'])
+        ->name('autenticacionViewLogin');
 
-        ###Cerrar Sesion
-        Route::post('/logout', 'LoginController@logout')
-            ->name('publicoLogout');
+    ###Proceso Login
+    Route::post('/login', [CredencialController::class, 'login'])
+        ->name('autenticacionProcessCredencialLogin');
 
-        ###Bienvenido a tu cuenta
-        Route::get('/bienvenido','LoginController@index')
-            ->name('publicoBienvenido');
+    ###Proceso Cierre Sesion
+    Route::post('/logout', [CredencialController::class, 'logout'])
+        ->name('autenticacionProcessCredencialLogout');
 
-    ###Contraseña
-        ###Vista Recuperar Contraseña
-        Route::get('/recuperar-contrasena', 'ContrasenaController@index')
-            ->name('publicoRecuperarContrasena');
+    Route::group(['prefix' => 'credenciales'], function ()
+    {
+        ###Vista Recuperar Credenciales
+        Route::get('/solicitar-cambio', [AutenticacionViewController::class, 'recuperacion'])
+            ->name('autenticacionViewRecuperacion');
 
-        ###Recuperar Contraseña
-        Route::post('/recuperar-contrasena', 'ContrasenaController@solicitar')
-            ->name('publicoSolicitarRecuperarContrasena');
+        ###Proceso Recuperar Credenciales
+        Route::post('/solicitar-cambio', [ContrasenaController::class, 'solicitar'])
+            ->name('autenticacionProcessContrsenaSolicitar');
 
-        ###Vista Renovar Contraseña
-        Route::get('/{tkn_usuario}/renovar-contrasena', 'ContrasenaController@nueva')
-            ->name('publicoRenovarContrasena');
+        ###Vista Cambio Credenciales
+        Route::get('/cambiar/{tkn_usuario?}/{tkn_password?}', [AutenticacionViewController::class, 'cambio'])
+            ->name('autenticacionViewCambioContrasena');
 
-        ###Renovar Contraseña
-        Route::post('/renovar-contrasena', 'ContrasenaController@renovar')
-            ->name('publicoSolicitarRenovarContrasena');
+        ###Proceso Cambio Credenciales
+        Route::post('/cambiar', [ContrasenaController::class, 'cambio'])
+            ->name('autenticacionProcessContrasenaCambio');
+    });
+
+    Route::group(['prefix' => 'registro'], function ()
+    {
+
+    });
+    Route::group(['prefix' => 'politicas'], function ()
+    {
+
+    });
+    Route::group(['prefix' => 'recursos'], function ()
+    {
+
+    });
+});
+
+Route::group(['prefix' => 'roles'], function ()
+{
+    ###Vista Recuperar Credenciales
+    Route::get('/', [RolViewController::class, 'listado'])
+        ->name('rolViewListado');
+
+    ###Vista Recuperar Credenciales
+    Route::get('/nuevo-rol', [RolViewController::class, 'crear'])
+        ->name('rolViewCrear');
 });

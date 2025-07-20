@@ -4,6 +4,7 @@ namespace App\Http\src\Shared\Utils;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ApiResponseUtil
 {
@@ -17,12 +18,12 @@ class ApiResponseUtil
         | `meta`    | `object`           | Información adicional (timestamp, paginación, tokens, etc.) |
     */
 
-    public static function success(array $data = [], string $message = 'Successful operation.', int $code = 200): JsonResponse
+    public static function success(?JsonResource $data = null, string $message = 'Successful operation.', int $code = 200): JsonResponse
     {
         return response()->json([
             'success' => true,
             'message' => $message,
-            'data' => $data,
+            'data' => $data?->resolve() ?? (object)[],
             'meta' => [
                 'timestamp' => now()
             ],
@@ -41,7 +42,7 @@ class ApiResponseUtil
         ], $code);
     }
 
-    public static function created($data = null, string $message = 'Resource created successfully.'): JsonResponse
+    public static function created(JsonResource $data, string $message = 'Resource created successfully.'): JsonResponse
     {
         return self::success($data, $message, 201);
     }

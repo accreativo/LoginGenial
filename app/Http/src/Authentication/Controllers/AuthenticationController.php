@@ -3,20 +3,22 @@
 namespace App\Http\src\Authentication\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\src\Authentication\Services\LoginCredentialService;
 use App\Http\src\Shared\Utils\ApiResponseUtil;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AuthenticationController extends Controller
 {
     use AuthenticatesUsers;
     protected $redirectTo = RouteServiceProvider::HOME;
+    protected LoginCredentialService $loginCredentialService;
 
-    public function __construct()
+    public function __construct(LoginCredentialService $loginCredentialService)
     {
         $this->middleware('guest')->except('logout');
+        $this->loginCredentialService = $loginCredentialService;
     }
 
     public function unauthorized()
@@ -26,13 +28,11 @@ class AuthenticationController extends Controller
 
     protected function sendLoginResponse(Request $request)
     {
-        $user = $request->user();
-
-        $response = $user->login();
-
         $this->clearLoginAttempts($request);
 
-        return ApiResponseUtil::success($response);
+        $login = $this->loginCredentialService->login($request->user());
+
+        return ApiResponseUtil::success($login);
     }
 
     protected function validateLoginRequest(Request $request)
@@ -53,12 +53,9 @@ class AuthenticationController extends Controller
         $request->validate($rules, $message);
     }
 
-    protected function sendFailedLoginResponse(Request $request)
+    protected function sendFailedLoginResponse()
     {
-        $msg = array(
-            'msg' => 'incorrect credential'
-        );
-        return new JsonResponse($msg, 401);
+        return ApiResponseUtil::validation(['incorrect credential']);
     }
 
     public function logout(Request $request)
@@ -66,7 +63,7 @@ class AuthenticationController extends Controller
         $user = $request->user();
         $user->token()->revoke();
 
-        return new JsonResponse('Token revoked', 200);
+        return ApiResponseUtil::success();
     }
 
     public function username() {

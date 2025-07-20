@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\src\Autenticacion\Requests;
+namespace App\Http\src\Authentication\Requests;
 
-use App\Http\src\Authentication\Models\CredentialModel;
 use App\Http\src\Shared\Utils\ApiResponseUtil;
-use Aws\Credentials\Credentials;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 
@@ -22,8 +20,13 @@ class CreateCredentialRequest extends FormRequest
 
     public function prepareForValidation()
     {
-        $isValidUser = CredentialModel::isValidUser($this->user);
-        $isValidEmail = CredentialModel::isValidEmail($this->email);
+        $this->merge([
+            'credential' => [
+                'user'     => $this->user,
+                'email'    => $this->email,
+                'password' => $this->password,
+            ]
+        ]);
     }
 
     /**
@@ -36,8 +39,8 @@ class CreateCredentialRequest extends FormRequest
     {
         return [
             'user' => array('required'),
-            'email' => array('required', 'email'),
-            'password' => array('required', 'min_digits:6')
+            'email' => array('required'),
+            'password' => array('required')
         ];
     }
 
@@ -46,9 +49,7 @@ class CreateCredentialRequest extends FormRequest
         return [
             'user.required' => 'The user field is required.',
             'email.required' => 'The email field is required.',
-            'email.email' => 'The email field does not have the requested format.',
             'password.required' => 'The password field is required.',
-            'min_digits.required' => 'The password field required minimum six digits.',
         ];
     }
 

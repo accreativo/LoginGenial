@@ -3,22 +3,26 @@
 namespace App\Http\src\Authentication\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\src\Autenticacion\Requests\CreateCredentialRequest;
-use App\Http\src\Authentication\Models\CredentialModel;
+use App\Http\src\Authentication\Requests\CreateCredentialRequest;
+use App\Http\src\Authentication\TransferData\DTO\CreateCredentialDTO;
 use App\Http\src\Shared\Utils\ApiResponseUtil;
-use Illuminate\Http\Request;
+use App\Http\src\Authentication\Services\CreateCredentialService;
 
 class CredentialController extends Controller
 {
+    protected CreateCredentialService $createCredentialService;
+
+    public function __construct(CreateCredentialService $createCredentialService)
+    {
+        $this->createCredentialService = $createCredentialService;
+    }
+
     function create(CreateCredentialRequest $request)
     {
-        $newCredential = new CredentialModel();
-        $newCredential->create($request->newCredential);
+        $newCredential = new CreateCredentialDTO($request->credential);
 
-        $response = [
-            'credential' => $newCredential
-        ];
+        $credentialCreated = $this->createCredentialService->setup($newCredential);
 
-        return ApiResponseUtil::success($response);
+        return ApiResponseUtil::created($credentialCreated);
     }
 }

@@ -4,5 +4,5 @@
 
     class CredentialConfigurations
     {
-        public const EXPIRES_AT = 30;
+        public const EXPIRES_AT = 50;
     }

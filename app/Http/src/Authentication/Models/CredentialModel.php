@@ -2,11 +2,8 @@
 
 namespace App\Http\src\Authentication\Models;
 
-use App\Http\src\Authentication\Enums\CredentialConfigurations;
 use App\Http\src\Authentication\Enums\CredentialEvents;
-
 use App\Http\src\Rol\Models\RolModel;
-use App\Http\src\Shared\Environments\Environments;
 use App\Http\src\Shared\Utils\DateTimeUtil;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
@@ -34,17 +31,17 @@ class CredentialModel extends Authenticatable
 
         public function renewalRequests()
         {
-            return $this->hasMany(CredentialRenewalRequestModel::class, 'credentialId');
+            return $this->hasMany(CredentialRenewalRequestModel::class, 'credentialId', 'id');
         }
 
         public function authorizationRequests()
         {
-            return $this->hasMany(CredentialAuthorizationRequestModel::class, 'credentialId');
+            return $this->hasMany(CredentialAuthorizationRequestModel::class, 'credentialId', 'id');
         }
 
         public function events()
         {
-            return $this->hasMany(CredentialEventModel::class, 'credentialId');
+            return $this->hasMany(CredentialEventModel::class, 'credentialId', 'id');
         }
 
     ###LOGICA
@@ -92,32 +89,6 @@ class CredentialModel extends Authenticatable
                 'name' => CredentialEvents::CREDENTIAL_AUTHORIZATION_REQUEST,
                 'observation' => CredentialEvents::DEFAULT_OBSERVATION
             ]);
-        }
-
-        public function setSession($credencial)
-        {
-            $this->events()->create([
-                'name' => CredentialEvents::CREDENTIAL_LOGIN,
-                'observation' => CredentialEvents::DEFAULT_OBSERVATION
-            ]);
-        }
-
-        public function login()
-        {
-            $tokenResult = $this->createToken(Environments::HASH_PASSPORT());
-
-            $this->events()->create([
-                'name' => CredentialEvents::CREDENTIAL_LOGIN,
-                'observation' => CredentialEvents::DEFAULT_OBSERVATION
-            ]);
-
-            $data = [
-                'access_token' => $tokenResult->accessToken,
-                'login_at'     => DateTimeUtil::baseTime(),
-                'expires_at'   => DateTimeUtil::adjustTimeInMinutes(CredentialConfigurations::EXPIRES_AT),
-            ];
-
-            return $data;
         }
 
     ###SCOPES

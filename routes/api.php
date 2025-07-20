@@ -2,6 +2,7 @@
 
 use App\Http\src\Authentication\Requests\CambioContrasenaRequest;
 use App\Http\src\Authentication\Controllers\AuthenticationController;
+use App\Http\src\Authentication\Controllers\CredentialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,15 +20,21 @@ use Illuminate\Support\Facades\Route;
 Route::group([ ], function () {
 
     Route::post('/login', [AuthenticationController::class, 'login'])
-        ->name('authenticationProcessLogin');
+        ->name('authenticationLogin');
 
     Route::get('/unauthorized', [AuthenticationController::class, 'unauthorized'])
-        ->name('authenticationProcessUnauthorized');
+        ->name('authenticationUnauthorized');
 
     Route::group(['middleware' => ['auth:api']], function () {
 
         Route::post('/logout', [AuthenticationController::class, 'logout'])
-            ->name('authenticationProcessLogout');
+            ->name('authenticationLogout');
+
+        Route::group(['prefix' => 'credential'], function () {
+
+            Route::post('/create', [CredentialController::class, 'create'])
+                ->name('credentialCreate');
+        });
     });
 
 });

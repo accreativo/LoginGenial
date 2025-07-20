@@ -12,13 +12,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rol_permisos', function (Blueprint $table) {
+        Schema::create('credentialAuthorizationRequests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('rol_id')
+            $table->foreignId('credentialId')
                 ->references('id')
-                ->on('roles')
+                ->on('credentials')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
+            $table->string('code')
+                ->nullable();
+            $table->timestamp('dtCodeRequestLimit')
+                ->nullable();
+            $table->string('action')
+                ->nullable();
+            $table->string('session')
+                ->nullable();
             $table->uuid('tkn')
                 ->default(DB::raw('uuid_generate_v4()'));
             $table->index('tkn');
@@ -31,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rol_permisos');
+        Schema::dropIfExists('credencial_autorizacion_solicitudes');
     }
 };

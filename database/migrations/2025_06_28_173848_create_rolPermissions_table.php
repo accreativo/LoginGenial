@@ -12,19 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('credencial_renovacion_solicitudes', function (Blueprint $table) {
+        Schema::create('rolPermissions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('credencial_id')
+            $table->foreignId('rolId')
                 ->references('id')
-                ->on('credenciales')
+                ->on('roles')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
-            $table->string('tkn_password')
-                ->unique();
-            $table->boolean('fl_estado')
-                ->default(TRUE);
-            $table->timestamp('fe_recuperacion') ######## Fecha de pago de la suscripción
-                ->nullable();
             $table->uuid('tkn')
                 ->default(DB::raw('uuid_generate_v4()'));
             $table->index('tkn');
@@ -37,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('credencial_renovacion_solicitudes');
+        Schema::dropIfExists('rol_permisos');
     }
 };

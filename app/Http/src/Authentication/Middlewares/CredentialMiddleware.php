@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\src\Autenticacion\Middlewares;
+namespace App\Http\src\Authentication\Middlewares;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Closure;
 
-class CredencialMiddleware extends FormRequest
+class CredentialMiddleware extends FormRequest
 {
     /**
         * Handle an incoming request.

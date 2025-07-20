@@ -19,7 +19,7 @@ class TableRolesSeed extends Seeder
 
         foreach ($roles as $valor){
             DB::table('roles')->insert([
-                'nombre' => $valor
+                'name' => $valor
             ]);
         }
     }

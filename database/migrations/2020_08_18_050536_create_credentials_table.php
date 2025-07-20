@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRolesTable extends Migration
+class CreateCredentialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,20 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('credentials', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('rolId')
+                ->references('id')
+                ->on('roles')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
+            $table->string('user')
+                ->unique();
+            $table->string('password',100);
+            $table->string('email')
+                ->unique();
+            $table->boolean('flStatus')
+                ->default(TRUE);
             $table->uuid('tkn')
                 ->default(DB::raw('uuid_generate_v4()'));
             $table->index('tkn');
@@ -32,6 +42,6 @@ class CreateRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('perfiles');
+        Schema::dropIfExists('usuarios');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\src\Autenticacion\AutenticacionModel;
+use App\Http\src\Authentication\Models\CredentialModel;
 
 return [
 
@@ -44,7 +44,7 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'passport',
             'provider' => 'users',
             'hash' => false,
         ],
@@ -70,7 +70,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => AutenticacionModel::class,
+            'model' => CredentialModel::class,
         ],
 
         // 'users' => [

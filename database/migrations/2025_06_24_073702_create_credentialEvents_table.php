@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('credencial_eventos', function (Blueprint $table) {
+        Schema::create('credentialEvents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('credencial_id')
+            $table->foreignId('credentialId')
                 ->references('id')
-                ->on('credenciales')
+                ->on('credentials')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
-            $table->string('evento')
+            $table->string('name')
                 ->nullable();
-            $table->string('obervacion')
+            $table->string('observation')
                 ->nullable();
             $table->timestamps();
         });

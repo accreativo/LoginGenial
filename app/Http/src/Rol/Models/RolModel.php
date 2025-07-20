@@ -12,30 +12,9 @@ class RolModel extends Model
         protected $fillable = ['nombre','fl_estado'];
 
     ###RELACIONES
-        public function credenciales()
+        public function permissions()
         {
-            return $this->hasMany(CredencialModel::class, 'rol_id');
-        }
-
-        public function permisos()
-        {
-            return $this->hasMany(RolPemisoModel::class, 'rol_id');
-        }
-
-    ###CRUD
-        public function crear($request)
-        {
-            # code...
-        }
-
-        public function actualizar($request)
-        {
-            # code...
-        }
-
-        public function anular($request)
-        {
-            # code...
+            return $this->hasMany(RolPermissionModel::class, 'rol_id');
         }
 
     ###LOGICA

@@ -64,12 +64,14 @@ trait CmzConsoleCommandsTrait
 
         // Generar contenido básico
         $namespace = "App\\Http\\src\\{$path}\\Requests";
-        $stub = <<<PHP
+        $stub = <<<'PHP'
         <?php
 
         namespace {$namespace};
 
+        use App\Http\src\Shared\Utils\ApiResponseUtil;
         use Illuminate\Foundation\Http\FormRequest;
+        use Illuminate\Contracts\Validation\Validator;
 
         class {$name} extends FormRequest
         {
@@ -97,6 +99,16 @@ trait CmzConsoleCommandsTrait
             public function rules()
             {
                 return [];
+            }
+
+            public function messages()
+            {
+                return [];
+            }
+
+            protected function failedValidation(Validator $validator)
+            {
+                throw ApiResponseUtil::validation($validator->errors());
             }
         }
         PHP;

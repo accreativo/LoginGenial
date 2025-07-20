@@ -5,29 +5,26 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCredencialesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('credenciales', function (Blueprint $table) {
+        Schema::create('credentialRenewalRequests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('rol_id')
+            $table->foreignId('credentialId')
                 ->references('id')
-                ->on('roles')
+                ->on('credentials')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
-            $table->string('usuario')
+            $table->string('tknPassword')
                 ->unique();
-            $table->string('password',100);
-            $table->string('correo')
-                ->unique();
-            $table->boolean('fl_estado')
+            $table->boolean('flStatus')
                 ->default(TRUE);
+            $table->timestamp('dtRenewalRequestLimit') ######## Fecha de pago de la suscripción
+                ->nullable();
             $table->uuid('tkn')
                 ->default(DB::raw('uuid_generate_v4()'));
             $table->index('tkn');
@@ -37,11 +34,9 @@ class CreateCredencialesTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('credencial_renovacion_solicitudes');
     }
-}
+};

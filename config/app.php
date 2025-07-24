@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Modules\Shared\Providers\CoreServiceProvider;
+use App\Http\Modules\Shared\Providers\ModulesServiceProvider;
+
 return [
 
     /*
@@ -174,6 +177,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        ModulesServiceProvider::class,
+        CoreServiceProvider::class,
 
     ],
 

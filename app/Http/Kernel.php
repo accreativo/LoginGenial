@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-use App\Http\src\Shared\Middlewares\ResponseTimeMiddleware;
+use App\Http\Modules\Shared\Middlewares\ResponseTimeMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel

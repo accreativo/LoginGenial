@@ -1,9 +1,6 @@
 <?php
 
-use App\Http\Modules\Authentication\Requests\CambioContrasenaRequest;
-use App\Http\Modules\Authentication\Controllers\AuthenticationController;
-use App\Http\Modules\Authentication\Controllers\CredentialController;
-use Illuminate\Http\Request;
+use App\Http\Modules\Rol\Infrastructure\Controllers\RolController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +13,12 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::group(['prefix' => 'rol', ['auth:api']], function () {
+
+    Route::post('/create', [RolController::class, 'create'])
+        ->name('rolCreate');
+
+    Route::get('/all', [RolController::class, 'getAll'])
+        ->name('rolGetAll');
+});

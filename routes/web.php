@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\src\Rol\Controllers\RolViewController;
+use App\Http\Modules\Rol\Controllers\RolViewController;
 use Illuminate\Support\Facades\Route;
 
 /*

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Modules\Authentication\Infrastructure\Database\Seeds\AuthenticationSeeder;
+use App\Http\Modules\Rol\Infrastructure\Database\Seeds\RolSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -11,7 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(TableRolesSeed::class);
-        $this->call(TableCredentialsSeed::class);
+        $this->call([
+            RolSeeder::class,
+            AuthenticationSeeder::class,
+        ]);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\src\Authentication\Models\CredentialModel;
+use App\Http\Modules\Authentication\Domain\Models\CredentialModel;
 
 return [
 

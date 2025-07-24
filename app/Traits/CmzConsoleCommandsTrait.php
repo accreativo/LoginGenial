@@ -7,7 +7,7 @@ trait CmzConsoleCommandsTrait
 {
     public function handleController($name, $path)
     {
-        $basePath = app_path('Http/src/'.$path.'/Controllers'); // <- Carpeta personalizada
+        $basePath = app_path('Http/Modules/'.$path.'/Controllers'); // <- Carpeta personalizada
         $controllerPath = $basePath . '/' . $name . '.php';
 
         // Crear carpeta si no existe
@@ -24,7 +24,7 @@ trait CmzConsoleCommandsTrait
         $path = str_replace('/',"\\",$path);
 
         // Generar contenido básico
-        $namespace = "App\\Http\\src\\{$path}\\Controllers";
+        $namespace = "App\\Http\\Modules\\{$path}\\Controllers";
         $stub = <<<PHP
         <?php
 
@@ -46,7 +46,7 @@ trait CmzConsoleCommandsTrait
 
     public function handleRequest($name, $path)
     {
-        $basePath = app_path('Http/src/'.$path.'/Requests'); // <- Carpeta personalizada
+        $basePath = app_path('Http/Modules/'.$path.'/Requests'); // <- Carpeta personalizada
         $controllerPath = $basePath . '/' . $name . '.php';
 
         // Crear carpeta si no existe
@@ -63,13 +63,13 @@ trait CmzConsoleCommandsTrait
         $path = str_replace('/',"\\",$path);
 
         // Generar contenido básico
-        $namespace = "App\\Http\\src\\{$path}\\Requests";
+        $namespace = "App\\Http\\Modules\\{$path}\\Requests";
         $stub = <<<'PHP'
         <?php
 
         namespace {$namespace};
 
-        use App\Http\src\Shared\Utils\ApiResponseUtil;
+        use App\Http\Modules\Shared\Utils\ApiResponseUtil;
         use Illuminate\Foundation\Http\FormRequest;
         use Illuminate\Contracts\Validation\Validator;
 
@@ -120,7 +120,7 @@ trait CmzConsoleCommandsTrait
 
     public function handleMiddleware($name, $path)
     {
-        $basePath = app_path('Http/src/'.$path.'/Middlewares'); // <- Carpeta personalizada
+        $basePath = app_path('Http/Modules/'.$path.'/Middlewares'); // <- Carpeta personalizada
         $controllerPath = $basePath . '/' . $name . '.php';
 
         // Crear carpeta si no existe
@@ -137,7 +137,7 @@ trait CmzConsoleCommandsTrait
         $path = str_replace('/',"\\",$path);
 
         // Generar contenido básico
-        $namespace = "App\\Http\\src\\{$path}\\Middlewares";
+        $namespace = "App\\Http\\Modules\\{$path}\\Middlewares";
 
         $stub = <<<'PHP'
         <?php
@@ -184,7 +184,7 @@ trait CmzConsoleCommandsTrait
     public function handleModel($name, $path, $table = null, $fields = "['tkn']")
     {
         $table = (!$table)?$this->setNameTable(str_replace('Model','',$name)):$table;
-        $basePath = app_path('Http/src/'.$path); // <- Carpeta personalizada
+        $basePath = app_path('Http/Modules/'.$path); // <- Carpeta personalizada
         $controllerPath = $basePath . '/' . $name . '.php';
 
         // Crear carpeta si no existe
@@ -201,7 +201,7 @@ trait CmzConsoleCommandsTrait
         $path = str_replace('/',"\\",$path);
 
         // Generar contenido básico
-        $namespace = "App\\Http\\src\\{$path}";
+        $namespace = "App\\Http\\Modules\\{$path}";
 
         $stub = <<<'PHP'
         <?php
